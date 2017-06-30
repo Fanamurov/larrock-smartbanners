@@ -17,7 +17,7 @@ class LarrockComponentSmartbannersServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views', 'larrock');
 
         $this->publishes([
-            __DIR__.'/views' => base_path('resources/views/larrock'),
+            __DIR__.'/views' => base_path('resources/views/vendor/larrock')
         ]);
     }
 
