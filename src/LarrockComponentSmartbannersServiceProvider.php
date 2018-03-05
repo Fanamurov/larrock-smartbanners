@@ -9,13 +9,11 @@ class LarrockComponentSmartbannersServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
-     *
      * @return void
      */
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/views', 'larrock');
-
         $this->publishes([
             __DIR__.'/views' => base_path('resources/views/vendor/larrock')
         ]);
@@ -23,7 +21,6 @@ class LarrockComponentSmartbannersServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
-     *
      * @return void
      */
     public function register()

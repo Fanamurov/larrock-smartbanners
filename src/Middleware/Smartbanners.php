@@ -16,7 +16,6 @@ class Smartbanners
 
     /**
      * Handle an incoming request.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
@@ -31,7 +30,6 @@ class Smartbanners
 			$this->server = env('SMARTBANNERS_SERVER', 'http://martds.ru');
 			$this->connect();
 		}
-
         return $next($request);
     }
 
@@ -43,7 +41,7 @@ class Smartbanners
 	{
 		$url = $this->server .'/smartbanners/get/'. $this->host .'/'. $this->banners .'/'. $this->partners .'?url_load='. $this->url_load;
 		$ch = curl_init(); // инициализируем сессию curl
-		curl_setopt($ch, CURLOPT_URL,$url); // указываем URL, куда отправлять POST-запрос
+		curl_setopt($ch, CURLOPT_URL, $url); // указываем URL, куда отправлять POST-запрос
 		curl_setopt($ch, CURLOPT_FAILONERROR, 1);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);// разрешаем перенаправление
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); // указываем, что результат запроса следует передать в переменную, а не вывести на экран
@@ -53,15 +51,13 @@ class Smartbanners
 
 		$info = curl_getinfo($ch);
 		curl_close($ch); // завершаем сессию
-		if($info['http_code'] === 200){
-			if($load_data = json_decode($result, true)){
-				if(is_array($load_data) && isset($load_data[0]['id'])){
-					return $this->parse_banners($load_data);
-				}
-			}
-		}else{
-			return NULL;
+		if($info['http_code'] === 200
+            && ($load_data = json_decode($result, true))
+            && (\is_array($load_data) && isset($load_data[0]['id']))){
+            return $this->parse_banners($load_data);
 		}
+
+        return NULL;
 
 		//Обработка ошибок CURL
 		//print_r(curl_getinfo($ch));
@@ -114,7 +110,6 @@ class Smartbanners
 
 			//Файла нет, значит скачиваем и ложим к нам
 			$file = $this->server . '/public/images/smartbanners/big/'. $image_name;
-
 			if ( @copy($file, $path_to_new_file)) {
 				return $src_new_file;
 			}
